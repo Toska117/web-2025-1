@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Tiempo de Reacción</title>
+    <title>Juego de Adivinar Banderas</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="traffic-light">
-        <div class="light red"></div>
-        <div class="light yellow"></div>
-        <div class="light green"></div>
+    <h1>Juego de Adivinar Banderas</h1>
+    <div id="flag-container">
+        <img id="flag" src="" alt="Bandera" width="300">
     </div>
-    <button id="start-button">Iniciar</button>
-    <div id="message"></div>
+    <input type="text" id="guess" placeholder="Escribe el nombre del país">
+    <button id="check-button">Comprobar</button>
+    <div id="result"></div>
+    <button id="next-button" style="display: none;">Siguiente</button>
     <script src="script.js"></script>
 </body>
 </html>
