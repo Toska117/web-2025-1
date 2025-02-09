@@ -1,49 +1,36 @@
-const trafficLight = document.getElementById('traffic-light');
-const clickButton = document.getElementById('click-button');
-const result = document.getElementById('result');
-let startTime;
-let timeoutId;
+document.getElementById('start-button').addEventListener('click', startGame);
 
-// Function to start the game
 function startGame() {
-    // Disable the button and reset the result
-    clickButton.disabled = true;
-    result.textContent = '';
+    const redLight = document.querySelector('.red');
+    const yellowLight = document.querySelector('.yellow');
+    const greenLight = document.querySelector('.green');
+    const message = document.getElementById('message');
+    let startTime;
 
-    // Turn on the red light
-    trafficLight.querySelector('.red').classList.add('active');
-    trafficLight.querySelector('.yellow').classList.remove('active');
-    trafficLight.querySelector('.green').classList.remove('active');
+    message.textContent = '';
 
-    // Wait for a random time (1-3 seconds) before turning on the green light
-    const randomTime = Math.floor(Math.random() * 3000) + 1000;
-    timeoutId = setTimeout(() => {
-        trafficLight.querySelector('.red').classList.remove('active');
-        trafficLight.querySelector('.yellow').classList.add('active');
+    redLight.style.backgroundColor = 'gray';
+    yellowLight.style.backgroundColor = 'gray';
+    greenLight.style.backgroundColor = 'gray';
 
-        // Wait for 1 second before turning on the green light
+    setTimeout(() => {
+        redLight.style.backgroundColor = 'red';
         setTimeout(() => {
-            trafficLight.querySelector('.yellow').classList.remove('active');
-            trafficLight.querySelector('.green').classList.add('active');
-            clickButton.disabled = false;
-            startTime = Date.now(); // Record the start time
+            yellowLight.style.backgroundColor = 'yellow';
+            setTimeout(() => {
+                greenLight.style.backgroundColor = 'green';
+                startTime = new Date().getTime();
+                document.addEventListener('keydown', checkReaction);
+            }, Math.random() * 3000 + 1000);
         }, 1000);
-    }, randomTime);
+    }, 1000);
+
+    function checkReaction(event) {
+        if (event.key === ' ') {
+            const reactionTime = new Date().getTime() - startTime;
+            message.textContent = `Tu tiempo de reacción es: ${reactionTime} ms`;
+            document.removeEventListener('keydown', checkReaction);
+            greenLight.style.backgroundColor = 'gray';
+        }
+    }
 }
-
-// Function to handle the button click
-function handleClick() {
-    if (clickButton.disabled) return; // Ignore clicks when the button is disabled
-
-    const reactionTime = Date.now() - startTime; // Calculate reaction time
-    result.textContent = `Your reaction time: ${reactionTime} ms`;
-
-    // Restart the game after 2 seconds
-    setTimeout(startGame, 2000);
-}
-
-// Add event listener to the button
-clickButton.addEventListener('click', handleClick);
-
-// Start the game when the page loads
-startGame();
