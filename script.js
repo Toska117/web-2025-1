@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, Button, Image, StyleSheet } from 'react-native';
+
 const flags = [
     { country: 'Argentina', flag: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg' },
     { country: 'Bolivia', flag: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Flag_of_Bolivia_%28state%29.svg' },
@@ -11,38 +14,75 @@ const flags = [
     { country: 'Venezuela', flag: 'https://upload.wikimedia.org/wikipedia/commons/0/06/Flag_of_Venezuela.svg' }
 ];
 
-let currentFlagIndex = 0;
+export default function App() {
+    const [currentFlagIndex, setCurrentFlagIndex] = useState(0);
+    const [guess, setGuess] = useState('');
+    const [result, setResult] = useState('');
 
-document.getElementById('check-button').addEventListener('click', checkGuess);
-document.getElementById('next-button').addEventListener('click', showNextFlag);
+    useEffect(() => {
+        showFlag();
+    }, [currentFlagIndex]);
 
-function showFlag() {
-    const flagImg = document.getElementById('flag');
-    flagImg.src = flags[currentFlagIndex].flag;
+    const showFlag = () => {
+        // El estado currentFlagIndex controlará la bandera mostrada
+    };
+
+    const checkGuess = () => {
+        if (guess.toLowerCase() === flags[currentFlagIndex].country.toLowerCase()) {
+            setResult('¡Correcto!');
+        } else {
+            setResult(`Incorrecto. La respuesta correcta es ${flags[currentFlagIndex].country}.`);
+        }
+    };
+
+    const showNextFlag = () => {
+        setCurrentFlagIndex((currentFlagIndex + 1) % flags.length);
+        setGuess('');
+        setResult('');
+    };
+
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>Juego de Adivinar Banderas</Text>
+            <Image source={{ uri: flags[currentFlagIndex].flag }} style={styles.flag} />
+            <TextInput
+                style={styles.input}
+                placeholder="Escribe el nombre del país"
+                value={guess}
+                onChangeText={setGuess}
+            />
+            <Button title="Comprobar" onPress={checkGuess} />
+            <Text style={styles.result}>{result}</Text>
+            <Button title="Siguiente" onPress={showNextFlag} />
+        </View>
+    );
 }
 
-function checkGuess() {
-    const guess = document.getElementById('guess').value.trim();
-    const result = document.getElementById('result');
-    if (guess.toLowerCase() === flags[currentFlagIndex].country.toLowerCase()) {
-        result.textContent = '¡Correcto!';
-        result.style.color = 'green';
-    } else {
-        result.textContent = 'Incorrecto. La respuesta correcta es ' + flags[currentFlagIndex].country + '.';
-        result.style.color = 'red';
-    }
-    document.getElementById('check-button').style.display = 'none';
-    document.getElementById('next-button').style.display = 'block';
-}
-
-function showNextFlag() {
-    currentFlagIndex = (currentFlagIndex + 1) % flags.length;
-    showFlag();
-    document.getElementById('guess').value = '';
-    document.getElementById('result').textContent = '';
-    document.getElementById('check-button').style.display = 'block';
-    document.getElementById('next-button').style.display = 'none';
-}
-
-// Mostrar la primera bandera al cargar la página
-showFlag();
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    title: {
+        fontSize: 24,
+        marginBottom: 20,
+    },
+    flag: {
+        width: 300,
+        height: 200,
+        marginBottom: 20,
+    },
+    input: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        paddingHorizontal: 10,
+        width: '80%',
+        marginBottom: 20,
+    },
+    result: {
+        marginTop: 20,
+        fontSize: 20,
+    },
+});
