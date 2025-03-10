@@ -1,38 +1,38 @@
- body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    font-family: Arial, sans-serif;
-}
+ import { StyleSheet } from 'react-native';
 
-h1 {
-    margin-bottom: 20px;
-}
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%',
+        fontFamily: 'Arial, sans-serif',
+    },
+    title: {
+        marginBottom: 20,
+    },
+    flagContainer: {
+        marginBottom: 20,
+    },
+    input: {
+        padding: 10,
+        fontSize: 16,  // 1em en CSS es aproximadamente 16px
+    },
+    button: {
+        padding: 10,
+        marginTop: 10,
+        fontSize: 16,  // 1em en CSS es aproximadamente 16px
+        cursor: 'pointer',
+    },
+    result: {
+        marginTop: 20,
+        fontSize: 24,  // 1.5em en CSS es aproximadamente 24px
+    },
+    nextButton: {
+        backgroundColor: '#4CAF50',
+        color: 'white',
+    },
+});
 
-#flag-container {
-    margin-bottom: 20px;
-}
+export default styles;
 
-#guess {
-    padding: 10px;
-    font-size: 1em;
-}
-
-button {
-    padding: 10px 20px;
-    margin-top: 10px;
-    font-size: 1em;
-    cursor: pointer;
-}
-
-#result {
-    margin-top: 20px;
-    font-size: 1.5em;
-}
-
-#next-button {
-    background-color: #4CAF50;
-    color: white;
-}
